@@ -1,0 +1,136 @@
+/* register.css harmonisé avec login.css */
+
+body {
+    background-image: url("../img/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    background: #333;
+    max-width: 500px;
+    width: 90%;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+    border: solid 1px rgb(255, 166, 58);
+}
+
+.register-container:hover {
+    transform: translateY(-4px);
+}
+
+.register-container h2 {
+    margin-bottom: 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    transition: color 0.3s;
+    text-align: center;
+}
+
+.register-container h2:hover {
+    color: #ffb84d;
+}
+
+.register-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-container .form-group {
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.register-container .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.register-container .form-group label:hover {
+    color: #ffb84d;
+}
+
+.register-container .form-group input {
+    width: 94%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #ffa500;
+    font-size: 1rem;
+    background: #fff;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.register-container .form-group input:focus {
+    border: 1.5px solid #ff8c00;
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+    outline: none;
+    background: #fff;
+}
+
+.register-container .form-actions {
+    text-align: center;
+    width: 100%;
+}
+
+.register-container .form-actions button,
+.register-container button.btn {
+    background: #000000;
+    color: #fff;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s, transform 0.2s, color 0.3s;
+}
+
+.register-container .form-actions button:hover,
+.register-container button.btn:hover {
+    color: black;
+    background: orange;
+    transform: translateY(-2px);
+}
+
+.register-container .error-message {
+    color: #ff4d4d;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.register-container .login-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.register-container .login-link a {
+    color: #fff;
+    text-decoration: none;
+    transition: text-decoration 0.2s, color 0.2s;
+}
+
+.register-container .login-link a:hover {
+    text-decoration: underline;
+    color: #ffb84d;
+}
