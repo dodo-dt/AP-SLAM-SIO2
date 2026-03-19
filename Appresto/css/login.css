@@ -1,0 +1,133 @@
+/* login.css modifié */
+
+body {
+    background-image: url("../img/bg.png"); 
+    background-size: cover;       
+    background-repeat: no-repeat; 
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: #333; /* Orange semi-transparent */
+    max-width: 400px;
+    width: 90%;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+    border: solid 1px rgb(255, 166, 58);
+}
+
+.login-container:hover {
+    transform: translateY(-4px);
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    color: white; /* Texte blanc */
+    font-weight: 700;
+    font-size: 2rem;
+    transition: color 0.3s;
+}
+
+.login-container h2:hover {
+    color: #ffb84d; /* Texte orange clair au hover */
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form label {
+    margin-bottom: 6px;
+    color: #fff; /* Texte blanc */
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.login-form label:hover {
+    color: #ffb84d; /* Texte orange clair au hover */
+    cursor: pointer; /* Curseur pointeur au survol */
+}
+
+.login-form input[type="password"] {
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    border: 1.5px solid #ffa500; /* Bordure orange */
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff; /* Champs blancs */
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.login-form input[type="email"] {
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1.5px solid #ffa500; /* Bordure orange */
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff; /* Champs blancs */
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+    border: 1.5px solid #ff8c00; /* Orange foncé au focus */
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+    outline: none;
+    background: #fff;
+}
+
+.login-form button {
+    background: #000000; /* Bouton orange foncé */
+    color: #fff;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.login-form button:hover {
+    color: black; /* Orange plus clair au hover */
+    background: orange; /* Bouton gris foncé au hover */
+    transform: translateY(-2px);
+}
+
+.login-form .error-message {
+    color: #ff4d4d; /* Rouge clair pour les erreurs */
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.login-form .register-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.login-form .register-link a{
+    color: #fff; /* Lien blanc */
+    text-decoration: none;
+    transition: text-decoration 0.2s, color 0.2s;
+}
+
+.login-form .register-link a:hover{
+    text-decoration: underline;
+    color: #ffb84d; /* Lien orange clair au hover */
+}

@@ -1,0 +1,95 @@
+/* Style harmonisé avec login.css pour la page de déconnexion */
+
+body {
+    background-image: url("../img/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: #333;
+    max-width: 400px;
+    width: 90%;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+    border: solid 1px rgb(255, 166, 58);
+}
+
+.login-container:hover {
+    transform: translateY(-4px);
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    transition: color 0.3s;
+    text-align: center;
+}
+
+.login-container h2:hover {
+    color: #ffb84d;
+}
+
+.login-container p {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.form-action {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.form-action button {
+    background: #000000;
+    color: #fff;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s, transform 0.2s, color 0.3s;
+}
+
+.form-action button:hover {
+    color: black;
+    background: orange;
+    transform: translateY(-2px);
+}
+
+.register-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.register-link a {
+    color: #fff;
+    text-decoration: none;
+    transition: text-decoration 0.2s, color 0.2s;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: #ffb84d;
+}
