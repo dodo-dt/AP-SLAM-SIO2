@@ -1,0 +1,180 @@
+/* body */
+body {
+  background-image: url("../img/bg.png");
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", Arial, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 100px 100px;
+  opacity: 0.15;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 28px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15));
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid rgba(255, 165, 0, 0.06);
+  color: #fff;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+}
+
+/* Logo */
+.navbar-logo img {
+  height: 84px;
+  width: auto;
+  display: block;
+}
+
+/* Liens */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar-links li {
+  list-style: none;
+}
+
+.navbar-links a {
+  color: #e6e6e6;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: color 0.18s ease, transform 0.18s ease;
+  position: relative;
+}
+
+.navbar-links a:hover {
+  color: #ffb84d;
+  transform: translateY(-2px);
+}
+
+/* État actif */
+.nav-active {
+  color: #ff6b35;
+  position: relative;
+}
+.nav-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b35, #ffb84d);
+  border-radius: 3px;
+}
+
+/* DROPDOWN UTILISATEUR */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Logo utilisateur */
+.user-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Menu déroulant */
+.user-dropdown .dropdown-menu {
+  display: none; /* vide pour l'instant */
+  position: absolute;
+  top: 55px; /* ajuster selon la taille du logo */
+  right: 0;
+  background-color: #1a1a1a;
+  min-width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1000;
+  padding: 5px 0;
+}
+
+/* Afficher le menu si survol du logo OU du menu */
+.user-dropdown:hover .dropdown-menu,
+.user-dropdown .dropdown-menu:hover {
+  display: block;
+}
+
+/* Liens du menu */
+.user-dropdown .dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.user-dropdown .dropdown-menu a:hover {
+  background-color: #ff6600;
+}
+
+/* Effet rebond */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(5px);
+  }
+}
+
+/* FOOTER */
+.footer {
+  color: #cfcfcf;
+  text-align: center;
+  padding: 15px;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+  border-top: 1px solid rgba(255, 165, 0, 0.04);
+}
+
+/* Small responsive tweaks for navbar */
+@media (max-width: 820px) {
+  .navbar-logo img {
+    height: 72px;
+  }
+  .navbar-links {
+    gap: 14px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Focus accessibility */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 3px solid rgba(255, 107, 53, 0.12);
+  outline-offset: 3px;
+}

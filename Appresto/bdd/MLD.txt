@@ -1,0 +1,5 @@
+Utilisateur = (ID_Identifiant INT, Identifiant VARCHAR(50), Mot_de_passe VARCHAR(255), Email VARCHAR(100));
+Etat = (ID_etat INT, lib_etat VARCHAR(50));
+Produit = (ID_produit INT, lib_produit VARCHAR(100), prix_unitaire_HT DECIMAL(10,2));
+Commande = (ID_Commande INT, lib_Commande VARCHAR(255), Type_Commande VARCHAR(50), total_TTC DECIMAL(10,2), date_commande DATETIME, #ID_Identifiant, #ID_etat);
+LigneCommande = (#ID_Commande, #ID_produit, quantité BIGINT, prix_unitaire_HT DECIMAL(10,2));

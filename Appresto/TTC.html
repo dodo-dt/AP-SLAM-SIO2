@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/ttc.css" />
+    <title>Calcul du TTC total</title>
+  </head>
+  <body>
+    <section id="navbar">
+      <nav class="navbar">
+        <!-- Logo -->
+        <div class="navbar-logo">
+          <img src="img/Logo.png" alt="Le Palais des Saveurs" />
+        </div>
+
+        <!-- Liens -->
+        <ul class="navbar-links">
+          <li><a href="#" >Accueil</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="commande.html" class="nav-active">Commander en ligne</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <!-- Profil utilisateur -->
+        <div class="navbar-user">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5.121 17.804A10 10 0 1118.364 4.561M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
+      </nav>
+    </section>
+    <section id="ttc">
+        <div class="ttc-container">
+            <h2>Prix</h2>
+            <form action="" method="post">
+            <div class="form-group">
+                <label for="ht-amount">Montant HT (€):</label>
+            </div>
+            <div class="form-group">
+                <label for="tax-rate">Taux de TVA (%):</label>
+            </div>
+            <!-- Résultat -->
+            <div class="result">
+            <h3>Montant TTC:</h3>
+            <p id="ttc-amount">-- €</p>
+            </div>
+            <br>
+            <div class="form-actions">
+                <button type="submit" class="btn">Payer</button>
+            </div>
+            </form>
+        </div>
+    </section>
+  </body>
+</html>

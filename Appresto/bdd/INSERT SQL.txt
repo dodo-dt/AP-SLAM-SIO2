@@ -1,0 +1,43 @@
+INSERT INTO Etat (lib_etat) VALUES
+('Initialisée'),
+('Finalisée'),
+('Calculée'),
+('En attente'),
+('Abandonnée'),
+('En préparation'),
+('Prête'),
+('Servie');
+
+
+
+INSERT INTO Utilisateur (Identifiant, Mot_de_passe, Email) VALUES
+('Tesnim', 'Benama', 'tesnim.benama@limayrac.fr'),
+('Dorian', 'Dutertre', 'dorian.dutertre@limayrac.fr'),
+('Selim', 'Nouira', 'selim.nouira@limayrac.fr');
+
+
+
+INSERT INTO Produit (lib_produit, prix_unitaire_HT) VALUES
+('Mafé', 19.99),
+('Attieké', 12.99),
+('Foutou', 15.99),
+('Poulet Yassa', 22.99),
+('Alloco Poulet', 17.99),
+('Riz tikka massala', 14.99),
+('Tiep Poisson', 15.99),
+('Bissap', 8.99),
+('Thiakry', 9.99),
+('Malva Pudding', 8.99),
+('Kachumbari', 9.99),
+("Soupe d'arachide", 8.99);
+
+
+
+
+INSERT INTO Commande (lib_Commande, Type_Commande, total_TTC, date_commande, ID_utilisateur, ID_etat)
+VALUES ('Mafé, À emporter', 'À emporter', 63.27, '2025-09-18 12:30:00', 1, 1);
+
+
+
+INSERT INTO LigneCommande (ID_Commande, ID_produit, quantite, prix_unitaire_HT)
+VALUES (1, 1, 3, 19.99);

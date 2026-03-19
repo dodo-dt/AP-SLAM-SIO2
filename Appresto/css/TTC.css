@@ -1,0 +1,125 @@
+/* Style harmonisé avec login.css, register.css et disconnect.css pour la page TTC */
+
+
+.ttc-container {
+    background: #333;
+    max-width: 420px;
+    width: 90%;
+    margin: 60px auto 0 auto;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 1px rgb(255, 166, 58);
+    transition: transform 0.2s ease;
+}
+
+.ttc-container:hover {
+    transform: translateY(-4px);
+}
+
+.ttc-container h2 {
+    margin-bottom: 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    transition: color 0.3s;
+    text-align: center;
+}
+
+.ttc-container h2:hover {
+    color: #ffb84d;
+}
+
+.ttc-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ttc-container .form-group {
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.ttc-container .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.ttc-container .form-group label:hover {
+    color: #ffb84d;
+}
+
+.ttc-container .form-group input {
+    width: 96%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #ffa500;
+    font-size: 1rem;
+    background: #fff;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.ttc-container .form-group input:focus {
+    border: 1.5px solid #ff8c00;
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+    outline: none;
+    background: #fff;
+}
+
+.ttc-container .form-actions {
+    text-align: center;
+    width: 100%;
+}
+
+.ttc-container .form-actions button,
+.ttc-container .btn {
+    background: #000000;
+    color: #fff;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s, transform 0.2s, color 0.3s;
+}
+
+.ttc-container .form-actions button:hover,
+.ttc-container .btn:hover {
+    color: black;
+    background: orange;
+    transform: translateY(-2px);
+}
+
+.ttc-container .result {
+    margin-top: 28px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 18px 0 10px 0;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(255, 166, 58, 0.08);
+}
+
+.ttc-container .result h3 {
+    margin: 0 0 8px 0;
+    color: #ffb84d;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.ttc-container .result p {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+}
