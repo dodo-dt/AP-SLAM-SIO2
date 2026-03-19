@@ -1,0 +1,45 @@
+.confirmation-box {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px;
+  border: 1px solid rgb(255, 166, 58);
+  border-radius: 12px;
+  background: rgba(51,51,51,0.98);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.confirmation-box h2 {
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-size: 1.8rem;
+  
+}
+
+.confirmation-box p {
+  margin: 10px 0;
+  font-size: 1.05em;
+  color: #ffffff;
+}
+
+.confirmation-box .btn {
+  display: inline-block;
+  margin: 15px 10px 0;
+  padding: 10px 20px;
+  background: #ff6b35;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.confirmation-box .btn:hover {
+  background: #e05a2d;
+  transform: scale(1.03);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
