@@ -1,13 +1,14 @@
-# 🍔 Projet AppResto - Lot 1 : Analyse et Conception
+# 📦 Lot 1 : Analyse et Conception
 
-## 📖 Introduction
-Le projet **AppResto** est une application web de restauration développée dans le cadre du module **Ateliers de Professionnalisation (AP.SLAM)** en **BTS SIO 2ème année** à l'Institut LIMAYRAC (2025/2026). 
-Ce premier lot pose les fondations structurelles et visuelles du projet.
+## 📖 Introduction du Lot
+Cette première phase du projet est strictement théorique et visuelle. Avant d'écrire la moindre ligne de code, il est nécessaire de cartographier les interactions des futurs utilisateurs avec le système, d'imaginer l'interface graphique, et de concevoir la structure des données qui supportera l'application.
 
 ## 🎯 Objectifs du Lot
-L'objectif de ce lot est d'analyser le besoin et de concevoir la modélisation des données ainsi que l'interface utilisateur. Il s'agit de préparer le terrain pour le développement futur en définissant les parcours utilisateurs, la base de données (MCD/MLD) et l'ergonomie (Sitemap, Maquettes).
+- Modéliser les données (du conceptuel au logique) pour anticiper la création de la base de données.
+- Définir le périmètre d'action des acteurs (Clients, Administrateurs) via des diagrammes UML.
+- Maquetter les interfaces (IHM) et l'arborescence (Sitemap) pour valider l'ergonomie.
 
-## ✅ Livrables Attendus et Rendus
+## ✅ Livrables et Rendus
 
 | Livrable Attendu (Cahier des charges) | Description / Format | Statut |
 | :--- | :--- | :---: |
@@ -15,9 +16,8 @@ L'objectif de ce lot est d'analyser le besoin et de concevoir la modélisation d
 | **Diagramme d'activités** | Modélisation du processus de commande. | ✅ |
 | **MCD (Modèle Conceptuel des Données)** | Schéma conceptuel des entités et relations. | ✅ |
 | **MLD (Modèle Logique des Données)** | Traduction relationnelle issue du MCD. | ✅ |
-| **IHM et Sitemap** | Maquettes visuelles et arborescence des pages du site. | ✅ |
-| **Dépôt distant** | Accès Github et/ou Drive pour le stockage des livrables. | ✅ |
+| **IHM et Sitemap** | Maquettes visuelles et arborescence des pages. | ✅ |
+| **Dépôt distant** | Accès Github/Drive pour le stockage des livrables. | ✅ |
 
-## 👥 Équipe et Gestion de projet
-- **Équipe SLAM** : Dorian, Tesnim, Selim
-- **Encadrement** : Christophe PUEL, Jean-François RAMIARA
+---
+**👥 Équipe SLAM** : Dorian, Tesnim, Selim | **Encadrants** : Christophe PUEL, Jean-François RAMIARA | **Institut LIMAYRAC** (2025/2026)
