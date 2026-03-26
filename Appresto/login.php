@@ -1,42 +1,34 @@
 <?php
-// Affichage des erreurs pour debug
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 include "functions/db_functions.php";
 
+$dbh = db_connect();
+
 $reponse = "";
 
-// Traitement du formulaire
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = trim($_POST['email'] ?? null);
-    $password = trim($_POST['password'] ?? null);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
-    if ($email && $password) {
-        try {
-            $dbh = db_connect();
+    if (!empty($email) && !empty($password)) {
+        
+        $stmt = $dbh->prepare("SELECT * FROM Utilisateur WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = "SELECT * FROM Utilisateur WHERE email = :email";
-            $sth = $dbh->prepare($sql);
-            $sth->execute([":email" => $email]);
-            $user = $sth->fetch(PDO::FETCH_ASSOC);
+        if ($user && password_verify($password, $user['mot_de_passe'])) {
+            
+            $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
+            $_SESSION['identifiant']    = $user['identifiant']; 
+            $_SESSION['email']          = $user['email'];
 
-            if ($user && password_verify($password, $user['mot_de_passe'])) {
-                $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
-                $_SESSION['identifiant'] = $user['identifiant'];
-                $_SESSION['email'] = $user['email'];
-
-                // Redirection vers la page principale
-                header("Location: index.php");
-                exit;
-            } else {
-                $reponse = "Email ou mot de passe incorrect.";
-            }
-        } catch (PDOException $e) {
-            die("Erreur SQL : " . $e->getMessage());
+            header("Location: index.php");
+            exit;
+            
+        } else {
+            $reponse = "Email ou mot de passe incorrect.";
         }
+        
     } else {
         $reponse = "Veuillez remplir tous les champs.";
     }
@@ -55,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="login-container">
     <h2>Connexion</h2>
-    <form class="login-form" action="login.php" method="POST">
+    
+    <form class="login-form" method="POST">
         <label for="email">Adresse e-mail</label>
         <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
 
@@ -64,12 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <button type="submit">Se connecter</button>
 
-        <!-- Affichage des erreurs -->
         <?php if (!empty($reponse)) : ?>
-            <div class="error-message"><?= htmlspecialchars($reponse) ?></div>
+            <div class="error-message" style="color: red; margin-top: 10px;">
+                <?= $reponse ?>
+            </div>
         <?php endif; ?>
 
         <div class="register-link">
+            <br>
             <span>Pas encore de compte ? <a href="register.php">Inscrivez-vous</a></span>
         </div>
     </form>

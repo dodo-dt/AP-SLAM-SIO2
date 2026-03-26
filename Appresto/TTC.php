@@ -2,26 +2,15 @@
 include "functions/check_loggin.php";
 include "functions/db_functions.php";
 
-try {
-    $dbh = db_connect();
-} catch (PDOException $e) {
-    error_log("DB connect error TTC.php: " . $e->getMessage());
-    die("Erreur base de données.");
-}
+$dbh = db_connect();
 
-/* --- Résolution id_commande (GET > POST > SESSION) --- */
-$id_commande = 0;
-if (!empty($_GET['id_commande'])) {
-    $id_commande = (int) $_GET['id_commande'];
-} elseif (!empty($_POST['id_commande'])) {
-    $id_commande = (int) $_POST['id_commande'];
-} elseif (!empty($_SESSION['id_commande'])) {
-    $id_commande = (int) $_SESSION['id_commande'];
-}
+$id_commande = isset($_GET['id_commande']) ? $_GET['id_commande'] : 0;
+
 if ($id_commande <= 0) {
     header("Location: commande.php");
     exit;
 }
+
 $_SESSION['id_commande'] = $id_commande;
 
 /* --- Récupérer le type de commande et le total TTC depuis la table Commande --- */
@@ -31,8 +20,7 @@ try {
     $commande = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $type_commande_db = $commande['type_commande'] ?? '';
-    $total_ttc = isset($commande['total_TTC']) ? (float)$commande['total_TTC'] : 0.0;
-    $total_ttc = round($total_ttc, 2);
+    $total_ttc = $commande['total_TTC'] ?? 0;
 
 } catch (PDOException $e) {
     error_log("DB error TTC.php: " . $e->getMessage());
@@ -42,14 +30,13 @@ try {
 
 /* --- Traitement POST : redirection vers payment.php --- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['last_ttc_amount'] = $total_ttc;
-    header('Location: payment.php?id_commande=' . (int)$id_commande . '&amount=' . urlencode(number_format($total_ttc, 2, '.', '')));
+    header('Location: payment.php?id_commande=' . $id_commande . '&amount=' . $total_ttc);
     exit;
 }
 
 /* --- Préparer valeur pour affichage --- */
-$display_ttc = number_format($total_ttc, 2, '.', '');
-?>
+$display_ttc = $total_ttc;?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

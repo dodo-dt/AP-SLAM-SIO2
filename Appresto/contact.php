@@ -1,8 +1,7 @@
 <?php
+include "./navbar.php";
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,10 +16,6 @@
 </head>
 
 <body>
-<?php
-include "./navbar.php";
-
-?>
 
     <main class="page-content">
         <div class="contact-flex">
