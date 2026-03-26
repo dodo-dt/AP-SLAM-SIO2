@@ -48,7 +48,7 @@ Le projet est prévu en plusieurs lots. Voici le récapitulatif technique et les
 | **Lot 4** | **Processus de Commande** | • `commander.php` (commander ses produits)<br>• `payer.php` (payer sa commande)<br>• `confirmer.php` (confirmation de prise en compte) |
 | **Lot 5** | **API REST (RestoWeb / RestoSwing)** | • Interface vers l'application Java des cuisines<br>• `commandes_en_attente.php`, `commande_accepter.php`<br>• `commande_refuser.php`, `commande_terminer.php` |
 | **Lot 6** | **Documentation de l'application** | • Mise à jour MCD/MLD/MPD/IHM/Sitemap/DCU<br>• Valeurs (États, Types conso) & Maquette JSON<br>• Manuels (Installation et Jeu de test) |
-| **Lot 7** | **Application Java RestoSwing** | • Développement application Java Swing (Gestion commandes)<br>• Consommation de l’API REST RestoWeb<br>• Manipulation d'objets métiers via réponses JSON |
+| **Lot 7** | **Application  Java RestoSwing** | • Développement application Java Swing (Gestion commandes)<br>• Consommation de l’API REST RestoWeb<br>• Manipulation d'objets métiers via réponses JSON |
 
 *(Les autres lots seront réalisés ultérieurement).*
 
