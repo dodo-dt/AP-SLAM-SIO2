@@ -12,6 +12,11 @@ function db_connect() {
   }
 }
 
+// Alias utilise par les endpoints API
+function getPDO() {
+  return db_connect();
+}
+
 
 
 ?>

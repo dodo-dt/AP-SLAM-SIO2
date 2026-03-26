@@ -1,7 +1,7 @@
 <?php
 // Récupère id_commande (GET > POST > session), récupère ou calcule le montant TTC et affiche la page de paiement
-require_once "functions/db_functions.php";
-require_once "functions/check_loggin.php"; // doit démarrer la session
+include "functions/db_functions.php";
+include "functions/check_loggin.php"; // doit démarrer la session
 
 $dbh = db_connect();
 
@@ -85,6 +85,10 @@ if ($montantTTC <= 0) {
 
 // stocker en session le montant final TTC pour étape suivante si besoin
 $_SESSION['final_payment_amount'] = $montantTTC;
+
+$paymentErrors = $_SESSION['payment_errors'] ?? [];
+$paymentOld = $_SESSION['payment_old'] ?? [];
+unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -98,7 +102,7 @@ $_SESSION['final_payment_amount'] = $montantTTC;
 </head>
 
 <body>
-  <?php require_once "./navbar.php"; ?>
+  <?php include "./navbar.php"; ?>
 
   <main class="container" style="padding-top:28px;">
     <header class="menu-header">
@@ -146,12 +150,12 @@ $_SESSION['final_payment_amount'] = $montantTTC;
 
           <div class="form-group">
             <label for="cardName">Titulaire (comme sur la carte)</label>
-            <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="NOM PRÉNOM" required>
+            <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="NOM PRÉNOM" required value="<?php echo htmlspecialchars((string)($paymentOld['cardName'] ?? ''), ENT_QUOTES); ?>">
           </div>
 
           <div class="form-group">
             <label for="cardNumber">Numéro de carte</label>
-            <input id="cardNumber" name="cardNumber" inputmode="numeric" type="tel" maxlength="23" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+            <input id="cardNumber" name="cardNumber" inputmode="numeric" type="tel" maxlength="23" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required value="<?php echo htmlspecialchars((string)($paymentOld['cardNumber'] ?? ''), ENT_QUOTES); ?>">
             <div class="helper">N'entrez pas d'informations réelles si vous testez en local.</div>
           </div>
 
@@ -159,19 +163,25 @@ $_SESSION['final_payment_amount'] = $montantTTC;
             <div class="col">
               <div class="form-group">
                 <label for="expiry">Date d'expiration (MM/AA)</label>
-                <input id="expiry" name="expiry" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" required pattern="^(0[1-9]|1[0-2])\/\d{2}$">
+                <input id="expiry" name="expiry" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" required pattern="^(0[1-9]|1[0-2])\/\d{2}$" value="<?php echo htmlspecialchars((string)($paymentOld['expiry'] ?? ''), ENT_QUOTES); ?>">
                 <div class="helper">Format : MM/AA</div>
               </div>
             </div>
             <div style="width:140px">
               <div class="form-group">
                 <label for="cvc">CVC</label>
-                <input id="cvc" name="cvc" type="tel" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc" required>
+                <input id="cvc" name="cvc" type="tel" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc" required value="<?php echo htmlspecialchars((string)($paymentOld['cvc'] ?? ''), ENT_QUOTES); ?>">
               </div>
             </div>
           </div>
 
-          <div id="errorArea" class="errors" role="alert" aria-live="assertive"></div>
+          <div id="errorArea" class="errors" role="alert" aria-live="assertive">
+            <?php if (!empty($paymentErrors)): ?>
+              <?php foreach ($paymentErrors as $err): ?>
+                <div><?php echo htmlspecialchars((string)$err, ENT_QUOTES); ?></div>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </div>
 
           <button class="btn" id="submitBtn" type="submit"><?php echo "Payer " . number_format($montantTTC, 2, '.', '') . "€"; ?></button>
 
@@ -181,7 +191,7 @@ $_SESSION['final_payment_amount'] = $montantTTC;
     </div>
   </main>
 
-  <?php require_once "./footer.php"; ?>
+  <?php include "./footer.php"; ?>
 
   <div class="bubbles">
     <div class="bubble"></div>

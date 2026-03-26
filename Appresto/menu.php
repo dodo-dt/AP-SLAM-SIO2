@@ -14,7 +14,7 @@
 </head>
 <body>
 <?php
-require_once "./navbar.php";
+include "./navbar.php";
 
 ?>
 

@@ -18,7 +18,7 @@
 
 <body>
 <?php
-require_once "./navbar.php";
+include "./navbar.php";
 
 ?>
 
@@ -64,7 +64,7 @@ require_once "./navbar.php";
     </main>
 
 <?php
-  require_once "./footer.php";
+  include "./footer.php";
 ?>
 
 </body>

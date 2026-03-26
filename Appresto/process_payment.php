@@ -4,8 +4,8 @@
 // Nécessite functions/check_loggin.php (démarre la session) et functions/db_functions.php
 
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once 'functions/check_loggin.php';
-require_once 'functions/db_functions.php';
+include 'functions/check_loggin.php';
+include 'functions/db_functions.php';
 
 $dbh = db_connect();
 
@@ -14,9 +14,73 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+function payment_error_redirect(int $id_commande, array $errors, array $old): void
+{
+    $_SESSION['payment_errors'] = $errors;
+    $_SESSION['payment_old'] = $old;
+    $target = 'payment.php';
+    if ($id_commande > 0) {
+        $target .= '?id_commande=' . $id_commande;
+    }
+    header('Location: ' . $target);
+    exit;
+}
+
+function validate_expiry(string $expiry): bool
+{
+    if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $expiry, $m)) {
+        return false;
+    }
+
+    $month = (int) substr($expiry, 0, 2);
+    $year = 2000 + (int) $m[2];
+    $now = new DateTimeImmutable('now');
+    $expiryDate = DateTimeImmutable::createFromFormat('Y-n-j H:i:s', $year . '-' . $month . '-1 23:59:59');
+    if (!$expiryDate) {
+        return false;
+    }
+    $expiryEndOfMonth = $expiryDate->modify('last day of this month');
+
+    return $expiryEndOfMonth >= $now;
+}
+
 // Récupération et validation des entrées
 $id_commande = isset($_POST['id_commande']) ? (int) $_POST['id_commande'] : 0;
 $posted_amount = isset($_POST['amount_ttc']) ? (float) str_replace(',', '.', $_POST['amount_ttc']) : 0.0;
+
+$cardName = trim((string) ($_POST['cardName'] ?? ''));
+$cardNumberRaw = (string) ($_POST['cardNumber'] ?? '');
+$cardNumber = preg_replace('/\D+/', '', $cardNumberRaw);
+$expiry = trim((string) ($_POST['expiry'] ?? ''));
+$cvcRaw = (string) ($_POST['cvc'] ?? '');
+$cvc = preg_replace('/\D+/', '', $cvcRaw);
+
+$paymentErrors = [];
+if ($cardName === '') {
+    $paymentErrors[] = 'Le nom du titulaire est obligatoire.';
+}
+if ($cardNumber === '' || strlen($cardNumber) < 13 || strlen($cardNumber) > 19) {
+    $paymentErrors[] = 'Le numero de carte est invalide.';
+}
+if (!validate_expiry($expiry)) {
+    $paymentErrors[] = "La date d'expiration est invalide ou la carte est expiree.";
+}
+if ($cvc === '' || !preg_match('/^\d{3,4}$/', $cvc)) {
+    $paymentErrors[] = 'Le code CVC est invalide.';
+}
+
+if (!empty($paymentErrors)) {
+    payment_error_redirect(
+        $id_commande,
+        $paymentErrors,
+        [
+            'cardName' => $cardName,
+            'cardNumber' => $cardNumberRaw,
+            'expiry' => $expiry,
+            'cvc' => $cvcRaw,
+        ]
+    );
+}
 
 if ($id_commande <= 0 || $posted_amount <= 0) {
     http_response_code(400);
@@ -125,7 +189,7 @@ unset($_SESSION['last_ttc_amount'], $_SESSION['last_tax_rate'], $_SESSION['final
   <link rel="stylesheet" href="css/process_payment.css">
 </head>
 <body>
-<?php require_once "navbar.php"; ?>
+<?php include "navbar.php"; ?>
 <main class="container" style="padding-top:28px;">
   <div class="confirmation-box">
     <h2>Paiement accepté!</h2>
@@ -135,7 +199,7 @@ unset($_SESSION['last_ttc_amount'], $_SESSION['last_tax_rate'], $_SESSION['final
     <a class="btn" href="index.php">Retour à l'accueil</a>
   </div>
 </main>
-<?php require_once "footer.php"; ?>
+<?php include "footer.php"; ?>
 </body>
 </html>
 <?php

@@ -12,7 +12,7 @@
 <body>
  
 <?php
-require_once "./navbar.php";
+include "./navbar.php";
 
 ?>
   <!-- Section Hero Principale -->
@@ -290,7 +290,7 @@ require_once "./navbar.php";
   </section>
 
   <?php
-require_once "./footer.php";
+include "./footer.php";
   ?>
 
 </body>
