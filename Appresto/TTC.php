@@ -4,39 +4,28 @@ include "functions/db_functions.php";
 
 $dbh = db_connect();
 
-$id_commande = isset($_GET['id_commande']) ? $_GET['id_commande'] : 0;
-
+$id_commande = (int)($_GET['id_commande'] ?? 0);
 if ($id_commande <= 0) {
     header("Location: commande.php");
     exit;
 }
 
-$_SESSION['id_commande'] = $id_commande;
-
-/* --- Récupérer le type de commande et le total TTC depuis la table Commande --- */
-try {
-    $stmt = $dbh->prepare("SELECT type_commande, total_TTC FROM Commande WHERE id_commande = :id_commande LIMIT 1");
-    $stmt->execute([':id_commande' => $id_commande]);
-    $commande = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $type_commande_db = $commande['type_commande'] ?? '';
-    $total_ttc = $commande['total_TTC'] ?? 0;
-
-} catch (PDOException $e) {
-    error_log("DB error TTC.php: " . $e->getMessage());
+$stmt = $dbh->prepare("SELECT type_commande, total_TTC FROM Commande WHERE id_commande = :id LIMIT 1");
+$stmt->execute([':id' => $id_commande]);
+$commande = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$commande) {
     header("Location: commande.php");
     exit;
 }
 
-/* --- Traitement POST : redirection vers payment.php --- */
+$type_commande = $commande['type_commande'];
+$total_ttc     = (float)$commande['total_TTC'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Location: payment.php?id_commande=' . $id_commande . '&amount=' . $total_ttc);
+    header('Location: payment.php?id_commande=' . $id_commande);
     exit;
 }
-
-/* --- Préparer valeur pour affichage --- */
-$display_ttc = $total_ttc;?>
-
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -55,19 +44,15 @@ $display_ttc = $total_ttc;?>
       <h2>Montant TTC</h2>
 
       <?php if ($total_ttc <= 0): ?>
-        <div class="notice">Montant TTC nul pour la commande #<?php echo htmlspecialchars($id_commande, ENT_QUOTES); ?>.</div>
+        <div class="notice">Montant TTC nul pour la commande #<?php echo $id_commande; ?>.</div>
       <?php else: ?>
-        <p>Commande #<?php echo htmlspecialchars($id_commande, ENT_QUOTES); ?> — Mode : <?php echo htmlspecialchars($type_commande_db, ENT_QUOTES); ?></p>
+        <p>Commande #<?php echo $id_commande; ?> — Mode : <?php echo $type_commande; ?></p>
 
-        <form action="" method="post" autocomplete="off">
-          <input type="hidden" name="id_commande" value="<?php echo htmlspecialchars($id_commande, ENT_QUOTES); ?>">
-
+        <form method="post" autocomplete="off">
           <div class="form-group">
-            <label for="ttc-amount">Montant TTC (€):</label>
-            <input id="ttc-amount" type="text" value="<?php echo $display_ttc; ?>" readonly aria-readonly="true">
+            <label for="ttc-amount">Montant TTC (€) :</label>
+            <input id="ttc-amount" type="text" value="<?php echo $total_ttc; ?>" readonly>
           </div>
-
-          <br>
 
           <div class="form-actions">
             <button type="submit" class="btn">Continuer vers le paiement</button>

@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <!-- Affichage des erreurs -->
         <?php if (!empty($reponse)) : ?>
-            <div class="error-message"><?= htmlspecialchars($reponse) ?></div>
+            <div class="error-message"><?= $reponse ?></div>
         <?php endif; ?>
 
         <div class="login-link">

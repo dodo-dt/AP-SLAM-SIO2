@@ -1,3 +1,4 @@
+```php
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,26 +7,19 @@
   <title>Le Palais des saveurs</title>
   <link rel="stylesheet" href="css/accueil.css">
   <link rel="stylesheet" href="css/style.css">
-  <!-- Fonts: modern serif for headings, neutral sans for body -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
- 
-<?php
-include "./navbar.php";
 
-?>
-  <!-- Section Hero Principale -->
+<?php include "./navbar.php"; ?>
+
   <section class="hero">
-    <!-- Inputs radio partagés pour le carrousel et les infos -->
     <input type="radio" name="carousel" id="slide1" checked>
     <input type="radio" name="carousel" id="slide2">
     <input type="radio" name="carousel" id="slide3">
     
-    <!-- Texture africaine subtile en arrière-plan -->
     <div class="hero-texture"></div>
     
-    <!-- Animation bulles de cuisson -->
     <div class="cooking-bubbles">
       <div class="bubble"></div>
       <div class="bubble"></div>
@@ -35,7 +29,6 @@ include "./navbar.php";
       <div class="bubble"></div>
     </div>
     
-    <!-- Éléments décoratifs africains -->
     <div class="african-leaf leaf-1"></div>
     <div class="african-leaf leaf-2"></div>
     <div class="african-leaf leaf-3"></div>
@@ -44,7 +37,6 @@ include "./navbar.php";
     <div class="african-leaf leaf-6"></div>
     <div class="african-leaf leaf-7"></div>
     
-    <!-- Carrousel d'images avec halo lumineux -->
     <div class="hero-visual">
       <div class="carousel-glow"></div>
       <div class="rotating-circle"></div>
@@ -72,7 +64,6 @@ include "./navbar.php";
             </div>
           </div>
           
-          <!-- Navigation controls -->
           <div class="carousel-controls">
             <label class="carousel-prev" for="slide3">‹</label>
             <label class="carousel-next" for="slide2">›</label>
@@ -85,7 +76,6 @@ include "./navbar.php";
           <label class="carousel-next" for="slide1" id="next-slide3">›</label>
         </div>
         
-        <!-- Navigation dots -->
         <div class="carousel-dots">
           <label for="slide1" class="dot"></label>
           <label for="slide2" class="dot"></label>
@@ -97,23 +87,10 @@ include "./navbar.php";
     <div class="hero-container">
       <div class="hero-content">
         <div class="hero-text">
-          <h1 class="hero-title">
-            Le Palais des Saveurs
-          </h1>
-          
-          <p class="hero-tagline">
-            Chaque épice raconte une histoire.
-          </p>
-          
-          <p class="hero-subtitle">
-            Cuisine africaine authentique
-          </p>
-          
-          <a href="menu.php" class="menu-button">
-            Découvrir nos plats
-          </a>
-          
-          <!-- Stats attrayantes -->
+          <h1 class="hero-title">Le Palais des Saveurs</h1>
+          <p class="hero-tagline">Chaque épice raconte une histoire.</p>
+          <p class="hero-subtitle">Cuisine africaine authentique</p>
+          <a href="menu.php" class="menu-button">Découvrir nos plats</a>
           <div class="hero-stats">
             <div class="stat">
               <span class="stat-number">10+</span>
@@ -133,7 +110,6 @@ include "./navbar.php";
     </div>
   </section>
 
-  <!-- Séparation élégante avec vague -->
   <div class="section-separator">
     <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -151,21 +127,9 @@ include "./navbar.php";
       <div class="about-content">
         <h2 class="about-title">À propos de nous</h2>
         <div class="about-text">
-          <p>
-            Situé au cœur de Toulouse, Le Palais des Saveurs vous invite à découvrir l'authenticité 
-            de la cuisine africaine dans un cadre chaleureux et convivial. Depuis 2020, nous 
-            perpétuons les traditions culinaires transmises de génération en génération.
-          </p>
-          <p>
-            Chaque plat est préparé avec amour dans nos cuisines, en utilisant exclusivement des 
-            ingrédients frais et des épices importées directement d'Afrique. Notre chef, originaire 
-            du Sénégal, met un point d'honneur à vous faire vivre une expérience gustative unique.
-          </p>
-          <p>
-            Que ce soit pour un déjeuner entre amis, un dîner en famille ou une découverte culinaire, 
-            notre équipe vous accueille avec le sourire pour partager ensemble les saveurs et 
-            célébrer la vie.
-          </p>
+          <p>Situé au cœur de Toulouse, Le Palais des Saveurs vous invite à découvrir l'authenticité de la cuisine africaine dans un cadre chaleureux et convivial. Depuis 2020, nous perpétuons les traditions culinaires transmises de génération en génération.</p>
+          <p>Chaque plat est préparé avec amour dans nos cuisines, en utilisant exclusivement des ingrédients frais et des épices importées directement d'Afrique. Notre chef, originaire du Sénégal, met un point d'honneur à vous faire vivre une expérience gustative unique.</p>
+          <p>Que ce soit pour un déjeuner entre amis, un dîner en famille ou une découverte culinaire, notre équipe vous accueille avec le sourire pour partager ensemble les saveurs et célébrer la vie.</p>
         </div>
         <div class="about-highlights">
           <div class="highlight">
@@ -185,7 +149,6 @@ include "./navbar.php";
     </div>
   </section>
 
-  <!-- Section Notre processus -->
   <section class="process-section">
     <div class="process-container">
       <div class="process-header">
@@ -212,7 +175,6 @@ include "./navbar.php";
     </div>
   </section>
 
-  <!-- Section Plats les mieux notés -->
   <section class="best-rated-dishes">
     <div class="dishes-container">
       <div class="dishes-header">
@@ -242,7 +204,6 @@ include "./navbar.php";
     </div>
   </section>
 
-  <!-- Section Statistiques -->
   <section class="stats-section">
     <div class="stats-container">
       <h2 class="stats-title">Nos chiffres</h2>
@@ -263,14 +224,12 @@ include "./navbar.php";
     </div>
   </section>
 
-<!-- Section Localisation -->
-   
   <section class="location-section">
-    
     <div class="location-container">
-     
-      <h2 class="location-title">         <img src="img/Logo.png" alt="Le Palais des Saveurs" class="logo">
-      </br>        Retrouvez-nous</h2>
+      <h2 class="location-title">
+        <img src="img/Logo.png" alt="Le Palais des Saveurs" class="logo">
+        <br>Retrouvez-nous
+      </h2>
       <p class="location-subtitle">Nous sommes basés uniquement à Toulouse pour l'instant !</p>
       <div class="location-content">
         <div class="location-info">
@@ -289,9 +248,25 @@ include "./navbar.php";
     </div>
   </section>
 
-  <?php
-include "./footer.php";
-  ?>
+<?php include "./footer.php"; ?>
+
+<script>
+  let current = 1;
+  const total = 3;
+  let paused = false;
+
+  setInterval(() => {
+    if (!paused) {
+      current = current === total ? 1 : current + 1;
+      document.getElementById('slide' + current).checked = true;
+    }
+  }, 4000);
+
+  const carousel = document.querySelector('.image-carousel');
+  carousel.addEventListener('mouseenter', () => paused = true);
+  carousel.addEventListener('mouseleave', () => paused = false);
+</script>
 
 </body>
 </html>
+```

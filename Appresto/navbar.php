@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 function isActive($page_active, $page) {
     return (isset($page_active) && $page_active == $page) ? 'nav-active' : '';
 }
@@ -41,9 +45,15 @@ function isActive($page_active, $page) {
                 </svg>
             </a>
             
+            <?php if (isset($_SESSION['id_utilisateur'])): ?>
             <ul class="dropdown-menu">
                 <li><a href="disconnect.php">Se déconnecter</a></li>
             </ul>
+            <?php else: ?>
+            <ul class="dropdown-menu">
+                <li><a href="login.php">Se connecter</a></li>
+            </ul>
+            <?php endif; ?>
         </li>
     </ul>
 </nav>

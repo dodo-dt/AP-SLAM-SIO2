@@ -4,9 +4,10 @@ session_start();
 $_SESSION = [];
 
 session_destroy();
-?>
 
-<!DOCTYPE html>
+header("Location: index.php");
+exit;
+?>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">

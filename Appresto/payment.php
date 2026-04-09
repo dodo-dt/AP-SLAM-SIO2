@@ -1,35 +1,29 @@
 <?php
 include "functions/db_functions.php";
-include "functions/check_loggin.php"; 
+include "functions/check_loggin.php";
 
 $dbh = db_connect();
 
-$id_commande = $_GET['id_commande'] ?? 0;
-if (empty($id_commande)) {
-  header("Location: commande.php");
-  exit;
+$id_commande = (int)($_GET['id_commande'] ?? 0);
+if ($id_commande <= 0) {
+    header("Location: commande.php");
+    exit;
 }
-$_SESSION['id_commande'] = $id_commande;
 
-$montantTTC = 0.0;
-try {
-  $stmt = $dbh->prepare("SELECT total_TTC FROM Commande WHERE id_commande = :id_commande LIMIT 1");
-  $stmt->execute([':id_commande' => $id_commande]);
-  $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  if ($row && $row['total_TTC'] !== null) {
-    $montantTTC = $row['total_TTC'];
-  }
-} catch (PDOException $e) {
-  error_log("DB error in payment.php (select total_TTC): " . $e->getMessage());
+$stmt = $dbh->prepare("SELECT total_TTC FROM Commande WHERE id_commande = :id LIMIT 1");
+$stmt->execute([':id' => $id_commande]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$row) {
+    header("Location: commande.php");
+    exit;
 }
+$montantTTC = number_format((float)$row['total_TTC'], 2, '.', '');
 
 $paymentErrors = $_SESSION['payment_errors'] ?? [];
-$paymentOld = $_SESSION['payment_old'] ?? [];
-unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
+unset($_SESSION['payment_errors']);
 ?>
 <!doctype html>
 <html lang="fr">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -37,7 +31,6 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/payment.css">
 </head>
-
 <body>
   <?php include "./navbar.php"; ?>
 
@@ -47,24 +40,23 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
       <p>Interface de paiement d'exemple — n'envoyez pas de données réelles ici en production.</p>
     </header>
 
-    <div class="payment-grid" role="main">
-      <section class="preview" aria-hidden="false">
-        <div class="card-visual" id="cardVisual" aria-hidden="true">
+    <div class="payment-grid">
+      <section class="preview">
+        <div class="card-visual" aria-hidden="true">
           <div class="card-top">
-            <div class="chip" aria-hidden="true"></div>
-            <div id="brandTag" class="card-type">VISA</div>
+            <div class="chip"></div>
+            <div class="card-type">VISA</div>
           </div>
-
           <div class="card-center">
-            <div class="card-number" id="visualNumber">•••• •••• •••• ••••</div>
+            <div class="card-number">•••• •••• •••• ••••</div>
             <div class="card-meta">
               <div>
                 <div class="card-label">Titulaire</div>
-                <div id="visualName">NOM PRÉNOM</div>
+                <div>NOM PRÉNOM</div>
               </div>
               <div style="text-align:right">
                 <div class="card-label">Valable</div>
-                <div id="visualExpiry">MM/AA</div>
+                <div>MM/AA</div>
               </div>
             </div>
           </div>
@@ -72,8 +64,8 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
 
         <div class="summary">
           <h3>Récapitulatif</h3>
-          <p>Commande #<?php echo htmlspecialchars($id_commande, ENT_QUOTES); ?></p>
-          <p>Montant : <strong id="summaryAmount"><?php echo number_format($montantTTC, 2, '.', ''); ?>€</strong></p>
+          <p>Commande #<?php echo $id_commande; ?></p>
+          <p>Montant : <strong><?php echo $montantTTC; ?>€</strong></p>
         </div>
       </section>
 
@@ -81,18 +73,18 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
         <h2>Informations de la carte</h2>
         <p class="small">Exemple d'interface. Pour la production utilisez un prestataire PCI (Stripe, etc.).</p>
 
-        <form id="paymentForm" novalidate method="post" action="process_payment.php">
-          <input type="hidden" name="id_commande" value="<?php echo htmlspecialchars($id_commande, ENT_QUOTES); ?>">
-          <input type="hidden" name="amount_ttc" value="<?php echo number_format($montantTTC, 2, '.', ''); ?>">
+        <form method="post" action="process_payment.php" novalidate>
+          <input type="hidden" name="id_commande" value="<?php echo $id_commande; ?>">
 
           <div class="form-group">
             <label for="cardName">Titulaire (comme sur la carte)</label>
-            <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="NOM PRÉNOM" required value="<?php echo htmlspecialchars((string)($paymentOld['cardName'] ?? ''), ENT_QUOTES); ?>">
+            <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="NOM PRÉNOM" required>
           </div>
 
           <div class="form-group">
             <label for="cardNumber">Numéro de carte</label>
-            <input id="cardNumber" name="cardNumber" inputmode="numeric" type="tel" maxlength="23" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required value="<?php echo htmlspecialchars((string)($paymentOld['cardNumber'] ?? ''), ENT_QUOTES); ?>">
+            <input id="cardNumber" name="cardNumber" type="tel" inputmode="numeric"
+                   autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
             <div class="helper">N'entrez pas d'informations réelles si vous testez en local.</div>
           </div>
 
@@ -100,28 +92,20 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
             <div class="col">
               <div class="form-group">
                 <label for="expiry">Date d'expiration (MM/AA)</label>
-                <input id="expiry" name="expiry" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" required pattern="^(0[1-9]|1[0-2])\/\d{2}$" value="<?php echo htmlspecialchars((string)($paymentOld['expiry'] ?? ''), ENT_QUOTES); ?>">
-                <div class="helper">Format : MM/AA</div>
+                <input id="expiry" name="expiry" type="text" inputmode="numeric"
+                       placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" required>
               </div>
             </div>
             <div style="width:140px">
               <div class="form-group">
                 <label for="cvc">CVC</label>
-                <input id="cvc" name="cvc" type="tel" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc" required value="<?php echo htmlspecialchars((string)($paymentOld['cvc'] ?? ''), ENT_QUOTES); ?>">
+                <input id="cvc" name="cvc" type="tel" inputmode="numeric"
+                       maxlength="3" placeholder="123" autocomplete="cc-csc" required>
               </div>
             </div>
           </div>
 
-          <div id="errorArea" class="errors" role="alert" aria-live="assertive">
-            <?php if (!empty($paymentErrors)): ?>
-              <?php foreach ($paymentErrors as $err): ?>
-                <div><?php echo htmlspecialchars((string)$err, ENT_QUOTES); ?></div>
-              <?php endforeach; ?>
-            <?php endif; ?>
-          </div>
-
-          <button class="btn" id="submitBtn" type="submit"><?php echo "Payer " . number_format($montantTTC, 2, '.', '') . "€"; ?></button>
-
+          <button class="btn" type="submit">Payer <?php echo $montantTTC; ?>€</button>
           <p class="notice">Intégration recommandée : Stripe Elements ou SDK conforme PCI.</p>
         </form>
       </section>
@@ -139,7 +123,17 @@ unset($_SESSION['payment_errors'], $_SESSION['payment_old']);
     <div class="bubble"></div>
   </div>
 
-  <script src="js/payment.js"></script>
-</body>
+  <script>
+  document.getElementById('cardNumber').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').substring(0, 16);
+    this.value = v.match(/.{1,4}/g)?.join(' ') ?? v;
+  });
 
+  document.getElementById('expiry').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').substring(0, 4);
+    if (v.length >= 3) v = v.substring(0, 2) + '/' + v.substring(2);
+    this.value = v;
+  });
+</script>
+</body>
 </html>
