@@ -12,4 +12,10 @@ function db_connect() {
   }
 }
 
+function getPDO() {
+  return db_connect();
+}
+
+
+
 ?>
