@@ -1,9 +1,4 @@
 <?php
-// Traitement minimal sécurisé du paiement (stub). Valide montant TTC serveur-side,
-// met à jour l'état de la commande et affiche confirmation / erreur.
-// Nécessite functions/check_loggin.php (démarre la session) et functions/db_functions.php
-
-if (session_status() === PHP_SESSION_NONE) session_start();
 include 'functions/check_loggin.php';
 include 'functions/db_functions.php';
 

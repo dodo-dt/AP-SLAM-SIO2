@@ -1,3 +1,9 @@
+<?php
+function isActive($page_active, $page) {
+    return (isset($page_active) && $page_active == $page) ? 'nav-active' : '';
+}
+?>
+
 <nav class="navbar">
     <div class="navbar-logo">
         <img src="img/Logo.png" alt="Le Palais des Saveurs" class="logo">
@@ -5,16 +11,16 @@
 
     <ul class="navbar-links">
         <li>
-            <a href="index.php" class="<?= (isset($page_active) && $page_active == 'accueil') ? 'nav-active' : '' ?>">Accueil</a>
+            <a href="index.php" class="<?= isActive($page_active, 'accueil') ?>">Accueil</a>
         </li>
         <li>
-            <a href="menu.php" class="<?= (isset($page_active) && $page_active == 'menu') ? 'nav-active' : '' ?>">Menu</a>
+            <a href="menu.php" class="<?= isActive($page_active, 'menu') ?>">Menu</a>
         </li>
         <li>
-            <a href="commande.php" class="<?= (isset($page_active) && $page_active == 'commande') ? 'nav-active highlight' : 'highlight' ?>">Commander en ligne</a>
+            <a href="commande.php" class="<?= isActive($page_active, 'commande') ?> highlight">Commander en ligne</a>
         </li>
         <li>
-            <a href="contact.php" class="<?= (isset($page_active) && $page_active == 'contact') ? 'nav-active' : '' ?>">Contact</a>
+            <a href="contact.php" class="<?= isActive($page_active, 'contact') ?>">Contact</a>
         </li>
 
         <li class="user-dropdown">

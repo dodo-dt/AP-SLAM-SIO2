@@ -1,90 +1,27 @@
 <?php
-// Récupère id_commande (GET > POST > session), récupère ou calcule le montant TTC et affiche la page de paiement
 include "functions/db_functions.php";
-include "functions/check_loggin.php"; // doit démarrer la session
+include "functions/check_loggin.php"; 
 
 $dbh = db_connect();
 
-// Résolution id_commande
-$id_commande = 0;
-if (!empty($_GET['id_commande'])) {
-  $id_commande = (int) $_GET['id_commande'];
-} elseif (!empty($_POST['id_commande'])) {
-  $id_commande = (int) $_POST['id_commande'];
-} elseif (!empty($_SESSION['id_commande'])) {
-  $id_commande = (int) $_SESSION['id_commande'];
-}
-
-if ($id_commande <= 0) {
+$id_commande = $_GET['id_commande'] ?? 0;
+if (empty($id_commande)) {
   header("Location: commande.php");
   exit;
 }
 $_SESSION['id_commande'] = $id_commande;
 
-// 1) Essayer de récupérer total_TTC depuis la table Commande
 $montantTTC = 0.0;
 try {
   $stmt = $dbh->prepare("SELECT total_TTC FROM Commande WHERE id_commande = :id_commande LIMIT 1");
   $stmt->execute([':id_commande' => $id_commande]);
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   if ($row && $row['total_TTC'] !== null) {
-    $montantTTC = (float) $row['total_TTC'];
+    $montantTTC = $row['total_TTC'];
   }
 } catch (PDOException $e) {
   error_log("DB error in payment.php (select total_TTC): " . $e->getMessage());
-  // continue avec autres sources de vérité
 }
-
-// 2) Si pas de total_TTC en base, vérifier param amount (GET) puis session (PRG)
-if ($montantTTC <= 0) {
-  if (!empty($_GET['amount'])) {
-    $montantTTC = (float) str_replace(',', '.', $_GET['amount']);
-  } elseif (!empty($_SESSION['last_ttc_amount'])) {
-    $montantTTC = (float) $_SESSION['last_ttc_amount'];
-  }
-}
-
-// 3) Si toujours pas de TTC, calculer à partir des lignes (HT) + tax rate connu/session/default
-if ($montantTTC <= 0) {
-  try {
-    // calcul HT total
-    $sql = "SELECT COALESCE(SUM(quantite * montant_unitaire_HT), 0) AS montant_ht
-                FROM LigneCommande
-                WHERE id_commande = :id_commande";
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute([':id_commande' => $id_commande]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $montantHT = (float) ($row['montant_ht'] ?? 0.0);
-    $montantHT = round($montantHT, 2);
-  } catch (PDOException $e) {
-    error_log("DB error in payment.php (calc HT): " . $e->getMessage());
-    header("Location: commande.php");
-    exit;
-  }
-
-  // tenter de récupérer le dernier taux connu en session ou dans la commande, sinon fallback 10%
-  $taxRate = 10.0;
-  if (!empty($_SESSION['last_tax_rate'])) {
-    $taxRate = (float) $_SESSION['last_tax_rate'];
-  } else {
-    try {
-      $stmt = $dbh->prepare("SELECT total_TTC FROM Commande WHERE id_commande = :id_commande LIMIT 1");
-      $stmt->execute([':id_commande' => $id_commande]);
-      $stored = $stmt->fetchColumn();
-      if ($stored !== false && $stored !== null && $montantHT > 0) {
-        $raw = ((float)$stored / $montantHT - 1) * 100;
-        if (is_finite($raw) && $raw > 0) $taxRate = (float) round($raw, 2);
-      }
-    } catch (PDOException $e) {
-      // ignore
-    }
-  }
-
-  $montantTTC = round($montantHT * (1 + $taxRate / 100), 2);
-}
-
-// stocker en session le montant final TTC pour étape suivante si besoin
-$_SESSION['final_payment_amount'] = $montantTTC;
 
 $paymentErrors = $_SESSION['payment_errors'] ?? [];
 $paymentOld = $_SESSION['payment_old'] ?? [];

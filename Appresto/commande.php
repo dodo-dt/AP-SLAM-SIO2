@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else if ($action == 'valider_commande') {
         if (empty($_SESSION['panier'])) {
-            $_SESSION['message_erreur'] = "Votre panier est vide.";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         } else {
             $stmt = $dbh->prepare("INSERT INTO Commande (date_commande, type_commande, id_utilisateur, id_etat, lib_commande)
                                    VALUES (NOW(), :type, :user, 1, :lib)");
