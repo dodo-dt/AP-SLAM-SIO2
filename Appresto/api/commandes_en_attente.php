@@ -44,7 +44,14 @@ try {
 
     $pdo = getPDO();
 
-    $sql = "SELECT 
+    // ✅ Sous-requête pour agréger quantite_totale depuis LigneCommande
+    $subQuery = "(
+        SELECT SUM(lc.quantite)
+        FROM LigneCommande lc
+        WHERE lc.id_commande = c.id_commande
+    ) AS quantite_totale";
+
+    $baseSelect = "SELECT 
                 c.id_commande,
                 c.lib_commande,
                 c.type_commande,
@@ -52,28 +59,19 @@ try {
                 c.date_commande,
                 c.id_utilisateur,
                 c.id_etat,
-                e.lib_etat
+                e.lib_etat,
+                $subQuery
             FROM 
                 Commande c
-            INNER JOIN Etat e ON e.id_etat = c.id_etat
-            ORDER BY c.date_commande DESC";
+            INNER JOIN Etat e ON e.id_etat = c.id_etat";
 
     if ($hasEtatFilter) {
-        $sql = "SELECT 
-                    c.id_commande,
-                    c.lib_commande,
-                    c.type_commande,
-                    c.total_TTC,
-                    c.date_commande,
-                    c.id_utilisateur,
-                    c.id_etat,
-                    e.lib_etat
-                FROM 
-                    Commande c
-                INNER JOIN Etat e ON e.id_etat = c.id_etat
-                WHERE 
-                    c.id_etat = :id_etat
-                ORDER BY c.date_commande DESC";
+        $sql = "$baseSelect
+            WHERE c.id_etat = :id_etat
+            ORDER BY c.date_commande DESC";
+    } else {
+        $sql = "$baseSelect
+            ORDER BY c.date_commande DESC";
     }
 
     $stmt = $pdo->prepare($sql);
@@ -83,8 +81,14 @@ try {
         $stmt->execute();
     }
 
-    // Récupération des commandes en attente
     $commandes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($commandes as &$commande) {
+        $commande['quantite_totale'] = isset($commande['quantite_totale'])
+            ? (int) $commande['quantite_totale']
+            : 0;
+    }
+    unset($commande);
 
     echo json_encode([
         'success' => true,
@@ -95,7 +99,6 @@ try {
 
 } catch (Exception $e) {
 
-    // Erreur serveur
     http_response_code(500);
     echo json_encode([
         'success' => false,
