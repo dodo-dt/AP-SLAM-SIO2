@@ -44,6 +44,47 @@ try {
 
     $pdo = getPDO();
 
+    $action = $_GET['action'] ?? null;
+
+    if ($action === 'details') {
+
+    $id_commande = $_GET['id_commande'] ?? null;
+
+    if (!is_numeric($id_commande)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'id_commande invalide'
+        ]);
+        exit;
+    }
+
+    $pdo = getPDO();
+
+    $sql = "SELECT 
+                lc.id_commande,
+                lc.id_produit,
+                p.lib_produit,
+                lc.quantite,
+                lc.montant_unitaire_HT
+            FROM LigneCommande lc
+            INNER JOIN Produit p ON p.id_produit = lc.id_produit
+            WHERE lc.id_commande = :id_commande";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id_commande' => (int)$id_commande]);
+
+    $lignes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode([
+        'success' => true,
+        'count' => count($lignes),
+        'data' => $lignes
+    ]);
+
+    exit;
+}
+
     // ✅ Sous-requête pour agréger quantite_totale depuis LigneCommande
     $subQuery = "(
         SELECT SUM(lc.quantite)
