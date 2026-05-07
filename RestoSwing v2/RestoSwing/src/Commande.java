@@ -97,4 +97,18 @@ public class Commande {
     public void addLigne(Ligne l) {
         this.lignes.add(l);
     }
+
+    public int getNombrePlats() {
+        int total = 0;
+
+        if (lignes != null) {
+            for (Ligne ligne : lignes) {
+                total += ligne.getQuantite();
+            }
+        }
+
+        return total;
+    }
+
+
 }

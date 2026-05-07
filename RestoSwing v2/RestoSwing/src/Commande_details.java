@@ -61,15 +61,14 @@ public class Commande_details extends JDialog {
             return;
         }
 
-        String statut = commande.getStatut(); // ⚠️ il faut un champ statut dans Commande
+        String statut = commande.getStatut();
         int idCommande = commande.getId_commande();
 
         try {
-
             // ACCEPTATION
             if ("accepter".equals(action)) {
 
-                if (!"EN_ATTENTE".equals(statut)) {
+                if (!"En attente".equals(statut)) {
                     JOptionPane.showMessageDialog(this,
                             "Impossible : seule une commande en attente peut être acceptée.");
                     return;
@@ -82,20 +81,20 @@ public class Commande_details extends JDialog {
             // REFUS
             else if ("refuser".equals(action)) {
 
-                if (!"EN_ATTENTE".equals(statut)) {
+                if (!"En attente".equals(statut)) {
                     JOptionPane.showMessageDialog(this,
                             "Impossible : seule une commande en attente peut être refusée.");
                     return;
                 }
 
                 NetworkUtils.refuserCommande(idCommande);
-                commande.setStatut("REFUSEE");
+                commande.setStatut("Refusee");
             }
 
             // TERMINER
             else if ("terminer".equals(action)) {
 
-                if (!"ACCEPTEE".equals(statut)) {
+                if (!"En préparation".equals(statut)) {
                     JOptionPane.showMessageDialog(this,
                             "Impossible : seule une commande acceptée peut être terminée.");
                     return;

@@ -186,6 +186,9 @@ public class NetworkUtils {
 
                 c.setStatut(obj.getString("lib_etat"));
 
+                ArrayList<Ligne> lignes = getDetailsCommande(c.getId_commande());
+                c.setLignes(lignes);
+
                 commandes.add(c);
             }
 

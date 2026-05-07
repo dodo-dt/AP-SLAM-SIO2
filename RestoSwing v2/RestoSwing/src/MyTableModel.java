@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class MyTableModel extends AbstractTableModel {
 
     private static final String[] cols = {
-            "ID", "Libelle", "Type", "Date", "Total TTC", "Statut"
+            "ID", "Type", "Date", "nb plat", "Total TTC", "Statut"
     };
 
     private ArrayList<Commande> commandes;
@@ -27,9 +27,9 @@ public class MyTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0: return c.getId_commande();
-            case 1: return c.getLib_commande();
-            case 2: return c.getType_commande();
-            case 3: return c.getDate_commande();
+            case 1: return c.getType_commande();
+            case 2: return c.getDate_commande();
+            case 3: return c.getNombrePlats();
             case 4: return c.getTotal_TTC();
             case 5: return c.getStatut();
             default: return null;
